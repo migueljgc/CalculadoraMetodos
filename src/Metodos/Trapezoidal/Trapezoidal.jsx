@@ -1,11 +1,11 @@
 import React from 'react'
 import '../Metodos.css'
 
-function JorgeBoole() {
+function Trapezoidal() {
   return (
     < div className='container'>
       <div className='metodo'>
-        <h1>Calculadora Jorge Boole</h1>
+        <h1>Calculadora Trapezoidal</h1>
         <p>F(X)</p>
         <input type="text" />
         <p>a</p>
@@ -26,4 +26,4 @@ function JorgeBoole() {
   )
 }
 
-export default JorgeBoole
+export default Trapezoidal

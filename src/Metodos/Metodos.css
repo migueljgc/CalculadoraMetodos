@@ -1,0 +1,56 @@
+/* Contenedor general con dos columnas */
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f0f0f0; /* Gris claro */
+  height: 80vh; /* Altura completa de la ventana */
+}
+.metodo, .Resultados {
+  background-color: #dcdcdc; /* Gris claro */
+  padding: 20px;
+  flex: 1;
+  box-sizing: border-box;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+
+.metodo input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.metodo button {
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.metodo h1,
+.Resultados h1 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.Resultados {
+  display: flex;
+  flex-direction: column;
+}
+
+.Resultados div {
+  flex: 1;
+  border: 1px solid black;
+  min-height: 300px;
+  margin-top: 10px;
+  position: relative;
+}
+

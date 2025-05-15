@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import './home.css'
 import JorgeBoole from './Metodos/JorgeBoole/JorgeBoole.jsx';
+import SimpsonAbierto from './Metodos/SimpsonAbierto/SimpsonAbierto';
+import Simpson13 from './Metodos/Simpson13/Simpson13';
+import Simpson38 from './Metodos/Simpson38/Simpson38';
+import Trapezoidal from './Metodos/Trapezoidal/Trapezoidal';
 
 
 function Home() {
@@ -30,6 +34,10 @@ const [metodoActivo, setMetodoActivo] = useState('boole'); // ← por defecto Bo
       </div>
        <div className="modal-container">
         {metodoActivo === 'boole' && <JorgeBoole  />}
+        {metodoActivo === 'abierto' && <SimpsonAbierto />}
+        {metodoActivo === 'simpson13' && <Simpson13  />}
+        {metodoActivo === 'simpson38' && <Simpson38  />}
+        {metodoActivo === 'trapezoidal' && <Trapezoidal />}
       </div>
      
     </>
