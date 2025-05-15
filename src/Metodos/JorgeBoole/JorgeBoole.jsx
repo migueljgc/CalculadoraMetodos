@@ -73,7 +73,7 @@ const JorgeBoole = () => {
       <div className='Resultados'>
         <h1>Resultado</h1>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: 'red' }}>{"Error al calcular"}</p>}
 
         {resultado && (
           <>
