@@ -19,15 +19,20 @@
 
 .metodo input {
   width: 100%;
+  height: 40px;
   padding: 10px;
   font-size: 16px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   box-sizing: border-box;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+
 }
 
 .metodo button {
   width: 100%;
-  padding: 10px;
+  height: 40px;
+  border-radius: 15px;
   font-size: 18px;
   font-weight: bold;
   background-color: white;
@@ -54,3 +59,52 @@
   position: relative;
 }
 
+.Grafica{
+  background-color: #f0f0f0;
+  border-radius: 15px;
+}
+
+
+.btn-calcular:hover {
+  background-color: #8888ff;
+  transition: background-color 0.3s ease;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+  .metodo, .Resultados {
+    margin: 10px 0;
+    padding: 15px;
+  }
+  .Resultados div {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 5px;
+  }
+  .metodo, .Resultados {
+    padding: 10px;
+    font-size: 14px;
+  }
+  .metodo input, .metodo button {
+    font-size: 14px;
+    height: 35px;
+    padding: 8px;
+  }
+  .Resultados div {
+    min-height: 120px;
+    font-size: 13px;
+  }
+  .metodo h1,
+  .Resultados h1 {
+    font-size: 16px;
+  }
+}

@@ -44,30 +44,30 @@ const JorgeBoole = () => {
         <h1>Calculadora Jorge Boole</h1>
 
         <p>F(X)</p>
-        <input
+        <input className='input'
           type="text"
           value={funcion}
           onChange={(e) => setFuncion(e.target.value)}
           placeholder="Ej: x^2 + 2*x + 1"
         />
 
-        <p>a</p>
-        <input
+        <p>A</p>
+        <input className='input'
           type="text"
           value={a}
           onChange={(e) => setA(e.target.value)}
           placeholder="Límite inferior"
         />
 
-        <p>b</p>
-        <input
+        <p>B</p>
+        <input className='input'
           type="text"
           value={b}
           onChange={(e) => setB(e.target.value)}
           placeholder="Límite superior"
         />
 
-        <button onClick={calcularBoole}>Calcular</button>
+        <button onClick={calcularBoole} className='btn-calcular'>Calcular</button>
       </div>
 
       <div className='Resultados'>
@@ -84,8 +84,8 @@ const JorgeBoole = () => {
           </>
         )}
 
-        <p>Gráfica</p>
-        <div>
+        <p>Gráfica de la funcion</p>
+        <div className='Grafica'>
           {/* Aquí puedes agregar la gráfica si deseas en el futuro */}
         </div>
       </div>
