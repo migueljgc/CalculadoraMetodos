@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Plot from 'react-plotly.js';
-import { evaluate, parse } from 'mathjs';
+import { parse } from 'mathjs';
 
 const JorgeBoole = () => {
   const [funcion, setFuncion] = useState('');
@@ -67,7 +67,7 @@ const JorgeBoole = () => {
   return (
     <div className='container'>
       <div className='metodo'>
-        <h1>Calculadora Jorge Boole</h1>
+        <h1 className='titulo'>Calculadora Jorge Boole</h1>
 
         <p>F(X)</p>
         <input className='input'
