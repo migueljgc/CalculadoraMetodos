@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Plot from 'react-plotly.js';
+import { evaluate, parse } from 'mathjs';
 
 const JorgeBoole = () => {
   const [funcion, setFuncion] = useState('');
@@ -6,17 +8,24 @@ const JorgeBoole = () => {
   const [b, setB] = useState('');
   const [resultado, setResultado] = useState(null);
   const [error, setError] = useState(null);
+  const [graficaData, setGraficaData] = useState([]);
 
   const calcularBoole = async () => {
-    const body = {
-      funcion,
-      formato: 'python',
-      a: parseFloat(a),
-      b: parseFloat(b),
-      n: 4 // debe ser múltiplo de 4
-    };
-
     try {
+      // Validación mínima
+      if (!funcion || isNaN(a) || isNaN(b)) {
+        alert('Completa todos los campos correctamente');
+        return;
+      }
+      const body = {
+        funcion,
+        formato: 'python',
+        a: parseFloat(a),
+        b: parseFloat(b),
+        n: 4 // debe ser múltiplo de 4
+      };
+
+
       const response = await fetch('https://flask-hello-world2-red.vercel.app/boole', {
         method: 'POST',
         headers: {
@@ -31,6 +40,23 @@ const JorgeBoole = () => {
 
       const data = await response.json();
       setResultado(data);
+      // Preparar datos para graficar
+      const expr = parse(funcion);
+      const compiled = expr.compile();
+      const puntosX = [];
+      const puntosY = [];
+
+      for (let x = parseFloat(a); x <= parseFloat(b); x += 0.1) {
+        try {
+          const y = compiled.evaluate({ x });
+          puntosX.push(x);
+          puntosY.push(y);
+        } catch (e) {
+          console.error('Error evaluando en x=', x, e);
+        }
+      }
+
+      setGraficaData([{ x: puntosX, y: puntosY, type: 'scatter', mode: 'lines', marker: { color: 'blue' } }]);
       setError(null);
     } catch (err) {
       setError(err.message);
@@ -86,7 +112,13 @@ const JorgeBoole = () => {
 
         <p>Gráfica de la funcion</p>
         <div className='Grafica'>
-          {/* Aquí puedes agregar la gráfica si deseas en el futuro */}
+          {graficaData.length > 0 && (
+          <Plot
+            data={graficaData}
+            layout={{ title: 'f(x)', xaxis: { title: 'x' }, yaxis: { title: 'f(x)' } }}
+            style={{ width: '100%', height: '400px' }}
+          />
+        )}
         </div>
       </div>
     </div>
