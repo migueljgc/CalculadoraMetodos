@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Plot from 'react-plotly.js';
-import { evaluate, parse } from 'mathjs';
 import { parse } from 'mathjs';
 
 const JorgeBoole = () => {
