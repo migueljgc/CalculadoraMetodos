@@ -6,7 +6,7 @@ const JorgeBoole = () => {
   const [funcion, setFuncion] = useState('');
   const [a, setA] = useState('');
   const [b, setB] = useState('');
-  const [resultado, setResultado] = useState('');
+  const [resultado, setResultado] = useState({});
   const [error, setError] = useState(null);
   const [graficaData, setGraficaData] = useState([]);
 
@@ -18,15 +18,6 @@ const JorgeBoole = () => {
         return;
       }
 
-      const body = {
-        funcion,
-        formato: "latex",
-        a: parseFloat(a),
-        b: parseFloat(b),
-        n: 4
-      };
-      const prueba = JSON.stringify(body);
-      console.log('Datos enviados:', prueba);
 
       const response = await fetch("https://flask-hello-world2-red.vercel.app/boole", {
 
@@ -44,14 +35,16 @@ const JorgeBoole = () => {
 
       })
 
-      console.log('Respuesta del servidor:', await response.json());
+      const data = await response.json();
 
       if (!response.ok) {
         throw new Error('Error al calcular');
       }
 
-      const data = await response.json();
-      setResultado(data.resultado);
+      
+      setResultado(data);
+      console.log('Resultado:', data);
+
       // Preparar datos para graficar
       const expr = parse(funcion);
       const compiled = expr.compile();
@@ -117,9 +110,7 @@ const JorgeBoole = () => {
         {resultado && (
           <>
             <label>Resultado de la integral:</label>
-            <p>{resultado}</p>
-            <p>Parámetros usados:</p>
-            <pre>{JSON.stringify(resultado.parametros, null, 2)}</pre>
+            <p>{resultado.resultado}</p>
           </>
         )}
 
