@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { evaluate, parse } from 'mathjs';
-import axios from 'axios';
+import { parse } from 'mathjs';
 
 const JorgeBoole = () => {
   const [funcion, setFuncion] = useState('');
@@ -45,7 +45,7 @@ const JorgeBoole = () => {
 
       })
 
-console.log('Respuesta del servidor:', await response.json());
+      console.log('Respuesta del servidor:', await response.json());
 
       if (!response.ok) {
         throw new Error('Error al calcular');
@@ -81,33 +81,33 @@ console.log('Respuesta del servidor:', await response.json());
   return (
     <div className='container'>
       <div className='metodo'>
-        <h1>Calculadora Jorge Boole</h1>
+        <h1 className='titulo'>Calculadora Jorge Boole</h1>
 
         <p>F(X)</p>
-        <input
+        <input className='input'
           type="text"
           value={funcion}
           onChange={(e) => setFuncion(e.target.value)}
           placeholder="Ej: x^2 + 2*x + 1"
         />
 
-        <p>a</p>
-        <input
+        <p>A</p>
+        <input className='input'
           type="text"
           value={a}
           onChange={(e) => setA(e.target.value)}
           placeholder="Límite inferior"
         />
 
-        <p>b</p>
-        <input
+        <p>B</p>
+        <input className='input'
           type="text"
           value={b}
           onChange={(e) => setB(e.target.value)}
           placeholder="Límite superior"
         />
 
-        <button onClick={calcularBoole}>Calcular</button>
+        <button onClick={calcularBoole} className='btn-calcular'>Calcular</button>
       </div>
 
       <div className='Resultados'>
@@ -124,8 +124,8 @@ console.log('Respuesta del servidor:', await response.json());
           </>
         )}
 
-        <p>Gráfica</p>
-        <div>
+        <p>Gráfica de la funcion</p>
+        <div className='Grafica'>
           {graficaData.length > 0 && (
             <Plot
               data={graficaData}

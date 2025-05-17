@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 0px 0px 20px 20px;
 }
 
 .home h1 {
@@ -14,10 +15,13 @@
   margin: 0;
 }
 
-.home nav {
+.home nav ul {
+  list-style: none;
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
+
 
 .home nav a {
   color: white;
@@ -31,4 +35,56 @@
 }
 .metodos {
   cursor: pointer;
+}
+
+.hamburguer {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 3px 0;
+}
+
+@media (max-width: 768px) {
+  .home header {
+    display: flex;
+  }
+  
+  .home nav ul {
+    align-items: center;
+    padding: 0;
+  }
+
+  .home nav a {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #8888ff;
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .hamburguer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+
+
+  
 }
