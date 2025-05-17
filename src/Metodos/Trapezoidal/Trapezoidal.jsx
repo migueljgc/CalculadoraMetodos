@@ -12,6 +12,8 @@ function Trapezoidal() {
         <input type="input" placeholder="Límite inferior" />
         <p>B</p>
         <input type="input" placeholder="Límite superior" />
+        <p>N</p>
+        <input type="input" name="" id="" placeholder='1,2,3,4,5,6,7,8,9'/>
         <button className='btn-calcular'>Calcular</button>
       </div>
       <div className='Resultados'>

@@ -13,6 +13,7 @@
   flex: 1;
   margin: 10px;
   border-radius: 5px;
+  height: 500px;
 }
 
 
@@ -39,8 +40,14 @@
   margin-top: 25px;
 }
 
+.metodo p,
+.Resultados p {
+  padding-left: 5px;
+}
+
 .metodo h1,
 .Resultados h1 {
+  padding-left: 5px;
   font-size: 20px;
   font-weight: bold;
 }
