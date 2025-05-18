@@ -9,6 +9,7 @@ const JorgeBoole = () => {
   const [resultado, setResultado] = useState({});
   const [error, setError] = useState(null);
   const [graficaData, setGraficaData] = useState([]);
+  const [tablaIteracion, setTablaIteracion] = useState([]);
 
   const calcularBoole = async () => {
     try {
@@ -41,9 +42,10 @@ const JorgeBoole = () => {
         throw new Error('Error al calcular');
       }
 
-      
+
       setResultado(data);
       console.log('Resultado:', data);
+      setTablaIteracion(data.tabla_iteracion);
 
       // Preparar datos para graficar
       const expr = parse(funcion);
@@ -107,10 +109,36 @@ const JorgeBoole = () => {
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
+
         {resultado && (
           <>
             <label>Resultado de la integral:</label>
             <p>{resultado.resultado}</p>
+
+
+
+
+          </>
+        )}
+        {tablaIteracion && (
+          <>
+            <label>Tabla de iteracion:</label>
+            <table>
+              <thead>
+                <tr>
+                  <th>X</th>
+                  <th>f(x)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tablaIteracion.map((iteracion, index) => (
+                  <tr key={index}>
+                    <td>{iteracion.x}</td>
+                    <td>{iteracion["f(x) * coef"]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </>
         )}
 
