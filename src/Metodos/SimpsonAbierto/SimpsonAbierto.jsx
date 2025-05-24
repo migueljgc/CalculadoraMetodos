@@ -3,7 +3,14 @@ import '../Metodos.css'
 import { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { parse } from 'mathjs';
-
+const convertirALatex = (expr) => {
+  try {
+    return parse(expr).toTex();
+  } catch (err) {
+    console.error("Error al convertir a LaTeX:", err);
+    return '';
+  }
+};
 function SimpsonAbierto() {
   const [funcion, setFuncion] = useState('');
   const [a, setA] = useState('');
@@ -22,14 +29,15 @@ function SimpsonAbierto() {
         return;
       }
 
-
+const funcionLatex = convertirALatex(funcion);
+      console.log('Función LaTeX:', funcionLatex);
       const response = await fetch("https://flask-hello-world2-red.vercel.app/simpson_abierto", {
 
         method: "POST", body: JSON.stringify({
           "a": Number(a),
           "b": Number(b),
           "formato": "latex",
-          "funcion": funcion,
+          "funcion": funcionLatex,
           "n": Number(n),
         }),
 
@@ -75,6 +83,15 @@ function SimpsonAbierto() {
     }
   };
   return (
+      <>
+      <div className="botones-funciones">
+        <button onClick={() => setFuncion(funcion + 'log(x)')}>log</button>
+        <button onClick={() => setFuncion(funcion + 'sin(x)')}>sin</button>
+        <button onClick={() => setFuncion(funcion + 'cos(x)')}>cos</button>
+        <button onClick={() => setFuncion(funcion + '^')}>^</button>
+        <button onClick={() => setFuncion(funcion + 'sqrt(x)')}>√</button>
+        <button onClick={() => setFuncion(funcion + 'e^x')}>e^x</button>
+      </div> 
     < div className='container'>
       <div className='metodo'>
         <h1>Calculadora Simpson Abierto</h1>
@@ -157,6 +174,7 @@ function SimpsonAbierto() {
       </div>
 
     </div>
+    </>
   )
 }
 

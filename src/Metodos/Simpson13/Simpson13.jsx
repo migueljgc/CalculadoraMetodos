@@ -3,7 +3,14 @@ import { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { parse } from 'mathjs';
 import '../Metodos.css'
-
+const convertirALatex = (expr) => {
+  try {
+    return parse(expr).toTex();
+  } catch (err) {
+    console.error("Error al convertir a LaTeX:", err);
+    return '';
+  }
+};
 function Simpson13() {
   const [funcion, setFuncion] = useState('');
   const [a, setA] = useState('');
@@ -20,6 +27,8 @@ function Simpson13() {
         alert('Completa todos los campos correctamente');
         return;
       }
+      const funcionLatex = convertirALatex(funcion);
+      console.log('Función LaTeX:', funcionLatex);
 
 
       const response = await fetch("https://flask-hello-world2-red.vercel.app/simpson13", {
@@ -28,7 +37,7 @@ function Simpson13() {
           "a": Number(a),
           "b": Number(b),
           "formato": "latex",
-          "funcion": funcion,
+          "funcion": funcionLatex,
           "n": 2
         }),
 
@@ -75,88 +84,98 @@ function Simpson13() {
   };
 
   return (
-    <div className='container'>
-      <div className='metodo'>
-        <h1 className='titulo'>Calculadora Simpson 1/3</h1>
-
-        <p>F(X)</p>
-        <input className='input'
-          type="text"
-          value={funcion}
-          onChange={(e) => setFuncion(e.target.value)}
-          placeholder="Ej: x^2 + 2*x + 1"
-        />
-
-        <p>A</p>
-        <input className='input'
-          type="text"
-          value={a}
-          onChange={(e) => setA(e.target.value)}
-          placeholder="Límite inferior"
-        />
-
-        <p>B</p>
-        <input className='input'
-          type="text"
-          value={b}
-          onChange={(e) => setB(e.target.value)}
-          placeholder="Límite superior"
-        />
-
-        <button onClick={calcularBoole} className='btn-calcular'>Calcular</button>
+    <>
+      <div className="botones-funciones">
+        <button onClick={() => setFuncion(funcion + 'log(x)')}>log</button>
+        <button onClick={() => setFuncion(funcion + 'sin(x)')}>sin</button>
+        <button onClick={() => setFuncion(funcion + 'cos(x)')}>cos</button>
+        <button onClick={() => setFuncion(funcion + '^')}>^</button>
+        <button onClick={() => setFuncion(funcion + 'sqrt(x)')}>√</button>
+        <button onClick={() => setFuncion(funcion + 'e^x')}>e^x</button>
       </div>
+      <div className='container'>
+        <div className='metodo'>
+          <h1 className='titulo'>Calculadora Simpson 1/3</h1>
 
-      <div className='Resultados'>
-        <h1>Resultado</h1>
+          <p>F(X)</p>
+          <input className='input'
+            type="text"
+            value={funcion}
+            onChange={(e) => setFuncion(e.target.value)}
+            placeholder="Ej: x^2 + 2*x + 1"
+          />
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+          <p>A</p>
+          <input className='input'
+            type="text"
+            value={a}
+            onChange={(e) => setA(e.target.value)}
+            placeholder="Límite inferior"
+          />
 
-{resultado && (
-          <>
-            <label>Resultado de la integral:</label>
-            <p>{resultado.resultado}</p>
+          <p>B</p>
+          <input className='input'
+            type="text"
+            value={b}
+            onChange={(e) => setB(e.target.value)}
+            placeholder="Límite superior"
+          />
 
-
-
-
-          </>
-        )}
-        {tablaIteracion && (
-          <>
-            <label>Tabla de iteracion:</label>
-            <table>
-              <thead>
-                <tr>
-                  <th>X</th>
-                  <th>f(x)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tablaIteracion.map((iteracion, index) => (
-                  <tr key={index}>
-                    <td>{iteracion.xi}</td>
-                    <td>{iteracion["f(xi) * coef"]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
-        )}
-
-        <p>Gráfica de la funcion</p>
-        <div className='Grafica'>
-          {graficaData.length > 0 && (
-            <Plot
-              data={graficaData}
-              layout={{ title: 'f(x)', xaxis: { title: 'x' }, yaxis: { title: 'f(x)' } }}
-              style={{ width: '100%', height: '400px' }}
-            />
-          )}
+          <button onClick={calcularBoole} className='btn-calcular'>Calcular</button>
         </div>
-      </div>
 
-    </div>
+        <div className='Resultados'>
+          <h1>Resultado</h1>
+
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+
+          {resultado && (
+            <>
+              <label>Resultado de la integral:</label>
+              <p>{resultado.resultado}</p>
+
+
+
+
+            </>
+          )}
+          {tablaIteracion && (
+            <>
+              <label>Tabla de iteracion:</label>
+              <table>
+                <thead>
+                  <tr>
+                    <th>X</th>
+                    <th>f(x)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tablaIteracion.map((iteracion, index) => (
+                    <tr key={index}>
+                      <td>{iteracion.xi}</td>
+                      <td>{iteracion["f(xi) * coef"]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+
+          <p>Gráfica de la funcion</p>
+          <div className='Grafica'>
+            {graficaData.length > 0 && (
+              <Plot
+                data={graficaData}
+                layout={{ title: 'f(x)', xaxis: { title: 'x' }, yaxis: { title: 'f(x)' } }}
+                style={{ width: '100%', height: '400px' }}
+              />
+            )}
+          </div>
+        </div>
+
+      </div>
+    </>
   )
 }
 
-export default  Simpson13
+export default Simpson13

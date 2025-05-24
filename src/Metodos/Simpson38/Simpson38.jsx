@@ -20,7 +20,14 @@ function Simpson38() {
   const [error, setError] = useState(null);
   const [graficaData, setGraficaData] = useState([]);
   const [tablaIteracion, setTablaIteracion] = useState([]);
-
+const convertirALatex = (expr) => {
+  try {
+    return parse(expr).toTex();
+  } catch (err) {
+    console.error("Error al convertir a LaTeX:", err);
+    return '';
+  }
+};
   const calcularBoole = async () => {
     try {
       // Validación mínima
@@ -84,7 +91,15 @@ function Simpson38() {
   };
 
   return (
-    
+     <>
+      <div className="botones-funciones">
+        <button onClick={() => setFuncion(funcion + 'log(x)')}>log</button>
+        <button onClick={() => setFuncion(funcion + 'sin(x)')}>sin</button>
+        <button onClick={() => setFuncion(funcion + 'cos(x)')}>cos</button>
+        <button onClick={() => setFuncion(funcion + '^')}>^</button>
+        <button onClick={() => setFuncion(funcion + 'sqrt(x)')}>√</button>
+        <button onClick={() => setFuncion(funcion + 'e^x')}>e^x</button>
+      </div> 
     <div className='container'>
       <div className='metodo'>
         <h1 className='titulo'>Calculadora Simpson 3/8</h1>
@@ -166,6 +181,7 @@ function Simpson38() {
       </div>
 
     </div>
+    </>
   )
 }
 export default Simpson38

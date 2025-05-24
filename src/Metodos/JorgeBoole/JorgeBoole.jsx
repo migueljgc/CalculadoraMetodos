@@ -27,7 +27,6 @@ const JorgeBoole = () => {
         alert('Completa todos los campos correctamente');
         return;
       }
-
       const funcionLatex = convertirALatex(funcion);
       console.log('Función LaTeX:', funcionLatex);
 
@@ -89,12 +88,12 @@ const JorgeBoole = () => {
   return (
     <>
       <div className="botones-funciones">
-        <button onClick={() => setFuncion(funcion + '\\log{x}')}>log</button>
-        <button onClick={() => setFuncion(funcion + '\\sin{x}')}>sin</button>
-        <button onClick={() => setFuncion(funcion + '\\cos{x}')}>cos</button>
-        <button onClick={() => setFuncion(funcion + '^{}')}>^</button>
-        <button onClick={() => setFuncion(funcion + '\\sqrt{x}')}>√</button>
-         <button onClick={() => setFuncion(funcion + 'e^{x}')}>e^x</button>
+        <button onClick={() => setFuncion(funcion + 'log(x)')}>log</button>
+        <button onClick={() => setFuncion(funcion + 'sin(x)')}>sin</button>
+        <button onClick={() => setFuncion(funcion + 'cos(x)')}>cos</button>
+        <button onClick={() => setFuncion(funcion + '^')}>^</button>
+        <button onClick={() => setFuncion(funcion + 'sqrt(x)')}>√</button>
+        <button onClick={() => setFuncion(funcion + 'exp{x}')}>e^x</button>
       </div>
 
       <div className='container'>

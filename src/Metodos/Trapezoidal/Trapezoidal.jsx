@@ -3,7 +3,14 @@ import '../Metodos.css'
 import { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { parse } from 'mathjs';
-
+const convertirALatex = (expr) => {
+  try {
+    return parse(expr).toTex();
+  } catch (err) {
+    console.error("Error al convertir a LaTeX:", err);
+    return '';
+  }
+};
 function Trapezoidal() {
   const [funcion, setFuncion] = useState('');
   const [a, setA] = useState('');
@@ -13,16 +20,7 @@ function Trapezoidal() {
   const [error, setError] = useState(null);
   const [graficaData, setGraficaData] = useState([]);
   const [tablaIteracion, setTablaIteracion] = useState([]);
-  function convertirLatexAMathJS(exprLatex) {
-  return exprLatex
-    .replace(/\\exp\(([^)]+)\)/g, 'exp($1)')
-    .replace(/\\ln\(([^)]+)\)/g, 'log($1)')
-    .replace(/\\log\(([^)]+)\)/g, 'log10($1)')
-    .replace(/\\sqrt\{([^}]+)\}/g, 'sqrt($1)')
-    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')
-    .replace(/\\cdot/g, '*')
-    .replace(/\^/g, '**') // opcional, solo si estás usando `**` en vez de `^` en Math.js
-}
+
 
 
   const calcularTrapezoidal = async () => {
@@ -33,14 +31,15 @@ function Trapezoidal() {
         return;
       }
 
-
+const funcionLatex = convertirALatex(funcion);
+      console.log('Función LaTeX:', funcionLatex);
       const response = await fetch("https://flask-hello-world2-red.vercel.app/trapecio", {
 
         method: "POST", body: JSON.stringify({
           "a": Number(a),
           "b": Number(b),
           "formato": "latex",
-          "funcion": funcion,
+          "funcion": funcionLatex,
           "n": Number(n),
         }),
 
@@ -57,16 +56,16 @@ function Trapezoidal() {
       }
 
 
-      setResultado(data);
-      console.log('Resultado:', data);
-      setTablaIteracion(data.tabla_iteracion);
-      const expresionMathJS = convertirLatexAMathJS(funcion);
-
-      // Preparar datos para graficar
-      const expr = parse(expresionMathJS);
-      const compiled = expr.compile();
-      const puntosX = [];
-      const puntosY = [];
+     setResultado(data);
+           console.log('Resultado:', data);
+           setTablaIteracion(data.tabla_iteracion);
+     
+           // Preparar datos para graficar
+           const expr = parse(funcion);
+           const compiled = expr.compile();
+           const puntosX = [];
+           const puntosY = [];
+     
 
       for (let x = parseFloat(a); x <= parseFloat(b); x += 0.1) {
         try {
@@ -87,6 +86,15 @@ function Trapezoidal() {
     }
   };
   return (
+      <>
+      <div className="botones-funciones">
+        <button onClick={() => setFuncion(funcion + 'log(x)')}>log</button>
+        <button onClick={() => setFuncion(funcion + 'sin(x)')}>sin</button>
+        <button onClick={() => setFuncion(funcion + 'cos(x)')}>cos</button>
+        <button onClick={() => setFuncion(funcion + '^')}>^</button>
+        <button onClick={() => setFuncion(funcion + 'sqrt(x)')}>√</button>
+        <button onClick={() => setFuncion(funcion + 'exp{x}')}>e^x</button>
+      </div> 
     < div className='container'>
       <div className='metodo'>
         <h1>Calculadora Trapezoidal</h1>
@@ -153,6 +161,7 @@ function Trapezoidal() {
       </div>
 
     </div>
+    </>
   )
 }
 
