@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { parse } from 'mathjs';
+import Grafica from '../../Componente/Grafica';
+const convertirALatex = (expr) => {
+  try {
+    return parse(expr).toTex();
+  } catch (err) {
+    console.error("Error al convertir a LaTeX:", err);
+    return '';
+  }
+};
 
 const JorgeBoole = () => {
   const [funcion, setFuncion] = useState('');
@@ -19,6 +28,9 @@ const JorgeBoole = () => {
         return;
       }
 
+      const funcionLatex = convertirALatex(funcion);
+      console.log('Función LaTeX:', funcionLatex);
+
 
       const response = await fetch("https://flask-hello-world2-red.vercel.app/boole", {
 
@@ -26,7 +38,7 @@ const JorgeBoole = () => {
           "a": Number(a),
           "b": Number(b),
           "formato": "latex",
-          "funcion": funcion,
+          "funcion": funcionLatex,
           "n": 4
         }),
 
@@ -63,7 +75,9 @@ const JorgeBoole = () => {
         }
       }
 
-      setGraficaData([{ x: puntosX, y: puntosY, type: 'scatter', mode: 'lines', marker: { color: 'blue' } }]);
+      const puntos = puntosX.map((xVal, idx) => ({ x: xVal, y: puntosY[idx] }));
+      setGraficaData(puntos);
+
       setError(null);
     } catch (err) {
       setError(err.message);
@@ -73,87 +87,98 @@ const JorgeBoole = () => {
   };
 
   return (
-    <div className='container'>
-      <div className='metodo'>
-        <h1 className='titulo'>Calculadora Jorge Boole</h1>
-
-        <p>F(X)</p>
-        <input className='input'
-          type="text"
-          value={funcion}
-          onChange={(e) => setFuncion(e.target.value)}
-          placeholder="Ej: x^2 + 2*x + 1"
-        />
-
-        <p>A</p>
-        <input className='input'
-          type="text"
-          value={a}
-          onChange={(e) => setA(e.target.value)}
-          placeholder="Límite inferior"
-        />
-
-        <p>B</p>
-        <input className='input'
-          type="text"
-          value={b}
-          onChange={(e) => setB(e.target.value)}
-          placeholder="Límite superior"
-        />
-
-        <button onClick={calcularBoole} className='btn-calcular'>Calcular</button>
+    <>
+      <div className="botones-funciones">
+        <button onClick={() => setFuncion(funcion + '\\log{x}')}>log</button>
+        <button onClick={() => setFuncion(funcion + '\\sin{x}')}>sin</button>
+        <button onClick={() => setFuncion(funcion + '\\cos{x}')}>cos</button>
+        <button onClick={() => setFuncion(funcion + '^{}')}>^</button>
+        <button onClick={() => setFuncion(funcion + '\\sqrt{x}')}>√</button>
+         <button onClick={() => setFuncion(funcion + 'e^{x}')}>e^x</button>
       </div>
 
-      <div className='Resultados'>
-        <h1>Resultado</h1>
-
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className='container'>
 
 
-        {resultado && (
-          <>
-            <label>Resultado de la integral:</label>
-            <p>{resultado.resultado}</p>
+        <div className='metodo'>
+          <h1 className='titulo'>Calculadora Jorge Boole</h1>
+
+          <p>F(X)</p>
+          <input className='input'
+            type="text"
+            value={funcion}
+            onChange={(e) => setFuncion(e.target.value)}
+            placeholder="Ej: x^2 + 2*x + 1"
+          />
+
+          <p>A</p>
+          <input className='input'
+            type="text"
+            value={a}
+            onChange={(e) => setA(e.target.value)}
+            placeholder="Límite inferior"
+          />
+
+          <p>B</p>
+          <input className='input'
+            type="text"
+            value={b}
+            onChange={(e) => setB(e.target.value)}
+            placeholder="Límite superior"
+          />
+
+          <button onClick={calcularBoole} className='btn-calcular'>Calcular</button>
+        </div>
+
+        <div className='Resultados'>
+          <h1>Resultado</h1>
+
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+
+
+          {resultado && (
+            <>
+              <label>Resultado de la integral:</label>
+              <p>{resultado.resultado}</p>
 
 
 
 
-          </>
-        )}
-        {tablaIteracion && (
-          <>
-            <label>Tabla de iteracion:</label>
-            <table>
-              <thead>
-                <tr>
-                  <th>X</th>
-                  <th>f(x)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tablaIteracion.map((iteracion, index) => (
-                  <tr key={index}>
-                    <td>{iteracion.x}</td>
-                    <td>{iteracion["f(x) * coef"]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
-        )}
-
-        <p>Gráfica de la funcion</p>
-        <div className='Grafica'>
-          {graficaData.length > 0 && (
-            <Plot
-              data={graficaData}
-              layout={{ title: 'f(x)', xaxis: { title: 'x' }, yaxis: { title: 'f(x)' } }}
-              style={{ width: '100%', height: '400px' }}
-            />
+            </>
           )}
+          {tablaIteracion && (
+            <>
+              <label>Tabla de iteracion:</label>
+              <table>
+                <thead>
+                  <tr>
+                    <th>X</th>
+                    <th>f(x)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tablaIteracion.map((iteracion, index) => (
+                    <tr key={index}>
+                      <td>{iteracion.x}</td>
+                      <td>{iteracion["f(x) * coef"]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+
+          <p>Gráfica de la funcion</p>
+          <div className='Grafica'>
+            {graficaData.length > 0 && (
+              <Grafica puntos={graficaData} funcion={funcion} />
+            )}
+
+
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

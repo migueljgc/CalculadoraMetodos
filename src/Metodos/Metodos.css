@@ -78,6 +78,28 @@ max-height: 100%;
   color: white;
 }
 
+.botones-funciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  justify-content: center;
+}
+
+.botones-funciones button {
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  height: 50px;
+}
+
+.botones-funciones button:hover {
+  background-color: #45a049;
+}
+
+
 @media (max-width: 900px) {
   .container {
     flex-direction: column;
